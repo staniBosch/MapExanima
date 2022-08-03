@@ -7,4 +7,30 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Map1Exanima.png" />
+    <None Remove="Map2-1Exanima.png" />
+    <None Remove="Map2Exanima.png" />
+    <None Remove="Map3Exanima.png" />
+    <None Remove="Map4Exanima.png" />
+    <None Remove="Map5-1Exanima.png" />
+    <None Remove="Map5Exanima.png" />
+    <None Remove="Map6Exanima.png" />
+    <None Remove="Map7-1Exanima.png" />
+    <None Remove="Map7Exanima.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Map1Exanima.png" />
+    <Resource Include="Map2-1Exanima.png" />
+    <Resource Include="Map2Exanima.png" />
+    <Resource Include="Map3Exanima.png" />
+    <Resource Include="Map4Exanima.png" />
+    <Resource Include="Map5-1Exanima.png" />
+    <Resource Include="Map5Exanima.png" />
+    <Resource Include="Map6Exanima.png" />
+    <Resource Include="Map7-1Exanima.png" />
+    <Resource Include="Map7Exanima.png" />
+  </ItemGroup>
+
 </Project>

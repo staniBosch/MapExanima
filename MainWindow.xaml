@@ -1,12 +1,48 @@
-﻿<Window x:Class="MapExanima.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MapExanima"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Name="MapExanima" x:Class="MapExanima.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="CenterOwner" BorderBrush="#00000000" MinWidth="200" MinHeight="200" Width="200" Height="200"
+    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" KeyDown="KeyDown_Event" Opacity="0.995" MaxWidth="200" MaxHeight="200" ResizeMode="NoResize" AllowsTransparency="True">
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Image x:Name="MapImageElement" Source="/Map1Exanima.png" Stretch="Fill" Opacity="0.6" MouseLeftButtonUp="MouseClick_Event" MinWidth="1090" MinHeight="1090" MaxWidth="1090" MaxHeight="1090" HorizontalAlignment="Left" Width="1090" Height="1090" VerticalAlignment="Top"/>
+        <Ellipse x:Name="CPosition" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF5FE2B5" Offset="1"/>
+                    <GradientStop Color="#FF3E9476" Offset="0.507"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <ComboBox x:Name="DropDownMap" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" Margin="0,0,0,0" OpacityMask="Black">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FFF0F0F0"/>
+                    <GradientStop Color="#FFBDEFE5" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <System:String>Map Level 1</System:String>
+            <System:String>Map Level 2</System:String>
+            <System:String>Map Level 2.5</System:String>
+            <System:String>Map Level 3</System:String>
+            <System:String>Map Level 4</System:String>
+            <System:String>Map Level 5</System:String>
+            <System:String>Map Level 5.5/Sewers</System:String>
+            <System:String>Map Level 6</System:String>
+            <System:String>Map Level 7</System:String>
+            <System:String>Map Level 7.5/Sewers</System:String>
+
+        </ComboBox>
+        <Button x:Name="close_btn" Content="X" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="close_btn_Click" HorizontalContentAlignment="Center" OpacityMask="Black"/>
 
     </Grid>
+
+
+
+
 </Window>
