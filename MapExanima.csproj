@@ -5,32 +5,110 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon(1).ico</ApplicationIcon>
+    <StartupObject>MapExanima.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Map1Exanima.png" />
-    <None Remove="Map2-1Exanima.png" />
-    <None Remove="Map2Exanima.png" />
-    <None Remove="Map3Exanima.png" />
-    <None Remove="Map4Exanima.png" />
-    <None Remove="Map5-1Exanima.png" />
-    <None Remove="Map5Exanima.png" />
-    <None Remove="Map6Exanima.png" />
-    <None Remove="Map7-1Exanima.png" />
-    <None Remove="Map7Exanima.png" />
+    <None Remove="Maps\[ID10]Map_Market.png" />
+    <None Remove="Maps\[ID11]Map_MarketSewer.png" />
+    <None Remove="Maps\[ID2]Map_LVL1.png" />
+    <None Remove="Maps\[ID3]Map_LVL2.png" />
+    <None Remove="Maps\[ID4]Map_LVL3.png" />
+    <None Remove="Maps\[ID5]Map_Catacombs.png" />
+    <None Remove="Maps\[ID6]Map_Archive.png" />
+    <None Remove="Maps\[ID7]Map_Crossroads.png" />
+    <None Remove="Maps\[ID8]Map_Golems.png" />
+    <None Remove="Maps\[ID9]Map_CrossroadsSewers.png" />
+    <None Remove="ReadMe.txt" />
+    <None Remove="[ID2]Map_LVL1.png" />
+    <None Remove="[ID3]Map_LVL2.png" />
+    <None Remove="[ID4]Map_LVL3.png" />
+    <None Remove="[ID5]Map_Catacombs.png" />
+    <None Remove="[ID6]Map_Archive.png" />
+    <None Remove="[ID7]Map_Crossroads.png" />
+    <None Remove="[ID8]Map_Golems.png" />
+    <None Remove="[ID9]Map_CrossroadsSewers.png" />
+  </ItemGroup>
+     
+  <ItemGroup>
+    <Content Include="favicon(1).ico" />
+    <Content Include="Maps\[ID10]Map_Market.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID11]Map_MarketSewer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID2]Map_LVL1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID3]Map_LVL2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID4]Map_LVL3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID5]Map_Catacombs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID6]Map_Archive.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID7]Map_Crossroads.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID8]Map_Golems.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\[ID9]Map_CrossroadsSewers.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID3]Map_LVL2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID4]Map_LVL3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID5]Map_Catacombs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID6]Map_Archive.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID7]Map_Crossroads.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID8]Map_Golems.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="[ID9]Map_CrossroadsSewers.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Map1Exanima.png" />
-    <Resource Include="Map2-1Exanima.png" />
-    <Resource Include="Map2Exanima.png" />
-    <Resource Include="Map3Exanima.png" />
-    <Resource Include="Map4Exanima.png" />
-    <Resource Include="Map5-1Exanima.png" />
-    <Resource Include="Map5Exanima.png" />
-    <Resource Include="Map6Exanima.png" />
-    <Resource Include="Map7-1Exanima.png" />
-    <Resource Include="Map7Exanima.png" />
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="[ID2]Map_LVL1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ReadMe.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="[ID10]Map_Market.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="[ID11]Map_MarketSewer.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

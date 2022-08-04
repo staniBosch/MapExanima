@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:MapExanima"
         xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Name="MapExanima" x:Class="MapExanima.MainWindow"
         mc:Ignorable="d"
-        Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="CenterOwner" BorderBrush="#00000000" MinWidth="200" MinHeight="200" Width="200" Height="200"
-    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" KeyDown="KeyDown_Event" Opacity="0.995" MaxWidth="200" MaxHeight="200" ResizeMode="NoResize" AllowsTransparency="True">
+        Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="CenterOwner" BorderBrush="#00000000" MinWidth="300" MinHeight="300" Width="200" Height="200"
+    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" KeyDown="KeyDown_Event" Opacity="0.995" MaxWidth="300" MaxHeight="298" ResizeMode="NoResize" AllowsTransparency="True">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-        <Image x:Name="MapImageElement" Source="/Map1Exanima.png" Stretch="Fill" Opacity="0.6" MouseLeftButtonUp="MouseClick_Event" MinWidth="1090" MinHeight="1090" MaxWidth="1090" MaxHeight="1090" HorizontalAlignment="Left" Width="1090" Height="1090" VerticalAlignment="Top"/>
+        <Image x:Name="MapImageElement" Source="/[ID2]Map_LVL1.png" Stretch="Fill" Opacity="0.6" MouseLeftButtonUp="MouseClick_Event" MinWidth="1150" MinHeight="1150" MaxWidth="1150" MaxHeight="1150" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Ellipse x:Name="CPosition" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Ellipse.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -28,17 +28,18 @@
             </ComboBox.Background>
             <System:String>Map Level 1</System:String>
             <System:String>Map Level 2</System:String>
-            <System:String>Map Level 2.5</System:String>
             <System:String>Map Level 3</System:String>
-            <System:String>Map Level 4</System:String>
-            <System:String>Map Level 5</System:String>
-            <System:String>Map Level 5.5/Sewers</System:String>
-            <System:String>Map Level 6</System:String>
-            <System:String>Map Level 7</System:String>
-            <System:String>Map Level 7.5/Sewers</System:String>
+            <System:String>Map Level Catacombs</System:String>
+            <System:String>Map Level Archive</System:String>
+            <System:String>Map Level Crossroads</System:String>
+            <System:String>Map Level Golems</System:String>
+            <System:String>Map Level Crossroads Sewer</System:String>
+            <System:String>Map Level Market</System:String>
+            <System:String>Map Level Market Sewers</System:String>
 
         </ComboBox>
         <Button x:Name="close_btn" Content="X" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="close_btn_Click" HorizontalContentAlignment="Center" OpacityMask="Black"/>
+        <TextBox x:Name="cordinate_txt" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="127" />
 
     </Grid>
 
