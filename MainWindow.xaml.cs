@@ -45,31 +45,31 @@ namespace MapExanima
                     this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID2]Map_LVL1.png"));
                     break;
                 case 1:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID3]Map_LVL2.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID3]Map_LVL2.png"));
                     break;
                 case 2:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID4]Map_LVL3.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID4]Map_LVL3.png"));
                     break;
                 case 3:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID5]Map_Catacombs.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID5]Map_Catacombs.png"));
                     break;
                 case 4:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID6]Map_Archive.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID6]Map_Archive.png"));
                     break;
                 case 5:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID7]Map_Crossroads.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID7]Map_Crossroads.png"));
                     break;
                 case 6:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID8]Map_Golems.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID8]Map_Golems.png"));
                     break;
                 case 7:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID9]Map_CrossroadsSewers.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID9]Map_CrossroadsSewers.png"));
                     break;
                 case 8:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID10]Map_Market.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID10]Map_Market.png"));
                     break;
                 case 9:
-                    this.MapImageElement.Source = new BitmapImage(new Uri("application:///[ID11]Map_MarketSewer.png"));
+                    this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Maps/[ID11]Map_MarketSewer.png"));
                     break;
             }
         }
@@ -232,7 +232,9 @@ namespace MapExanima
                 }
                 else if (mapLvl == 6)
                 {
-                    scaleF = 20;
+                    offsetX = 13550;
+                    offsetY = 11300;
+                    scaleF = 22;
                 }
                 else if (mapLvl == 7)
                 {
@@ -272,7 +274,7 @@ namespace MapExanima
                         posXY[0] = (X + offsetX) / 20;
                         posXY[1] = (Y + offsetY) / 20;
 
-                        this.DropDownMap.SelectedIndex = mapLvl - 2;
+                        this.DropDownMap.SelectedIndex = Math.Max(mapLvl - 2,0);
 
                         if (isBig)
                         {
