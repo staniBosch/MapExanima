@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App.config" />
     <None Remove="Maps\[ID10]Map_Market.png" />
     <None Remove="Maps\[ID11]Map_MarketSewer.png" />
     <None Remove="Maps\[ID2]Map_LVL1.png" />
@@ -71,6 +72,12 @@
 
   <ItemGroup>
     <Content Include="ReadMe.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

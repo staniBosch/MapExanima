@@ -1,11 +1,13 @@
-﻿using Memory.Win32;
-using System;
+﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Configuration;
+using System.Globalization;
 
 namespace MapExanima
 {
@@ -16,24 +18,43 @@ namespace MapExanima
     /// 
     ///  The important stuff happens in ReadMemoryOfExanima()
     /// <see cref="ReadMemoryOfExanima"/>
+    /// 
+
+
     public partial class MainWindow : Window
     {
+        //Important addresses from the Memory Exanima
+        private uint OFFSET_X_Ptr = 0x2A7FF4;
+        private uint OFFSET_Y_Ptr = 0x2A7FFC;
+        private uint OFFSET_LVL_Ptr = 0x2137C8;
+
         //The small map window size
         private const short SMWindow = 300;
         //if the window is big rezised
         bool isBig = false;
         //check for doubleclick on map
         static bool isDoubleClick = false;
-        float[] posXY;
+      //  float[] posXY;
+        byte mapLVL = 2;
         //MAIN Thread for getting information and refreshing map
         Thread workThread;
         bool runThread = true;
+
+        //Maps offsets and speeds
+        int offsetX = 10;
+        int offsetY = 10;
+        float scaleXY = 0.05f;
         public MainWindow()
         {
-            posXY = new float[2];
+           // posXY = new float[2];
             InitializeComponent();
+            checkDebugMode();
+           
+            
+
             workThread = new Thread(new ThreadStart(ReadMemoryOfExanima));
-            workThread.Start();
+            workThread.Start();            
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -80,7 +101,7 @@ namespace MapExanima
         }
         private void window_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
             {
                 this.DragMove();
             }
@@ -110,14 +131,12 @@ namespace MapExanima
         private void window_MouseEnter(object s, MouseEventArgs e)
         {
             this.DropDownMap.Visibility = Visibility.Visible;
-            this.close_btn.Visibility = Visibility.Visible;
-            this.cordinate_txt.Visibility = Visibility.Visible;
+            this.close_btn.Visibility = Visibility.Visible;      
         }
         private void window_MouseLeave(object s, MouseEventArgs e)
         {
             this.DropDownMap.Visibility = Visibility.Hidden;
-            this.close_btn.Visibility = Visibility.Hidden;
-            this.cordinate_txt.Visibility= Visibility.Hidden;
+            this.close_btn.Visibility = Visibility.Hidden;        
         }
         private void MouseClick_Event(object s, MouseEventArgs e)
         {
@@ -176,21 +195,22 @@ namespace MapExanima
 
             //System.Diagnostics.Debug.WriteLine(process.MainModule.BaseAddress.ToString("X"));
 
-            MemoryHelper32 helper = new MemoryHelper32(process);
 
             /*
              * Those are the pointer to X/Y and lvl -> with CheatEngine tryanderror
              *  
              */
-            uint XPtr = (uint)(0x2A7FF4) + (uint)baseaddr;
-            uint YPtr = (uint)(0x2A7FFC) + (uint)baseaddr;
-            uint LVLPtr = (uint)(0x2137C8) + (uint)baseaddr;
+            uint XPtr = OFFSET_X_Ptr + (uint)baseaddr;
+            uint YPtr = OFFSET_Y_Ptr + (uint)baseaddr;
+            uint LVLPtr = OFFSET_LVL_Ptr + (uint)baseaddr;
 
             //offsets: some areas in the game are placed off
             //TODO: Determine the areas "Position and Size" to get rid of the scaling and the offsets, there has to be an optimal Map.png
-            int offsetX = 0;
-            int offsetY = 0;
-            float scaleF = 20;
+                                    
+            float X = .0f;
+            float Y = .0f;
+            byte mapLVL_tmp = 0;
+            mapLVL = mapLVL_tmp;
 
             while (runThread)
             {
@@ -209,94 +229,163 @@ namespace MapExanima
                  *   2      3       4        5          6         7          8           9            10         11
                  *  LVL 1 LVL 2   LVL 3   Catacombs   Archive  Crossroads  Golems Crossroads Sewer  Market  Market Sewer
                  */
+                X = ReadMemoryValueFloat(process, XPtr);
+                Y = ReadMemoryValueFloat(process, YPtr);
+                mapLVL_tmp = ReadMemoryValueByte(process, LVLPtr);
 
-                float X = helper.ReadMemory<float>(XPtr);
-                float Y = helper.ReadMemory<float>(YPtr);
-                byte mapLvl = helper.ReadMemory<byte>(LVLPtr);
-                //System.Diagnostics.Debug.WriteLine("(X/Y): (" + X+ "/"+ Y +")");
-                //System.Diagnostics.Debug.WriteLine(mapLvl);
-
-
-                /*
-                 * SetOffsets
-                 */
-                if (mapLvl < 5)
+                if(mapLVL_tmp != mapLVL)
                 {
-                    offsetX = 11350;
-                    offsetY = 10900;
-                    scaleF = 20;
-                }
-                else if (mapLvl == 5)
-                {
-                    scaleF = 20;
-                }
-                else if (mapLvl == 6)
-                {
-                    offsetX = 13550;
-                    offsetY = 11300;
-                    scaleF = 22;
-                }
-                else if (mapLvl == 7)
-                {
-                    offsetX = 20000;
-                    offsetY = 13600;
-                    scaleF = 25;
-                }
-                else if (mapLvl == 8)
-                {
-                    offsetX = 17000;
-                    offsetY = 15700;
-                    scaleF = 27;
-                }
-                else if (mapLvl == 9)
-                {
-
-                }
-                else if (mapLvl == 10)
-                {
-                    offsetX = 16000;
-                    offsetY = 17200;
-                    scaleF = 27.9f;
-
-                }
-                else if (mapLvl == 11)
-                {
-
-                }
+                    mapLVL = mapLVL_tmp;
+                    offsetX = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetX"));
+                    offsetY = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetY"));
+                    scaleXY = float.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"), CultureInfo.InvariantCulture);
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        XValueSlider.Value = offsetX;
+                        YValueSlider.Value = offsetY;
+                        ScaleSlider.Value = scaleXY;
+                    }));
 
 
+                }
+                
                 //refresh MAP and Location
 
                 this.Dispatcher.Invoke(new Action(() =>
                     {
                         Thickness thicknessMap = this.MapImageElement.Margin;
 
-                        posXY[0] = (X + offsetX) / 20;
-                        posXY[1] = (Y + offsetY) / 20;
-
-                        this.DropDownMap.SelectedIndex = Math.Max(mapLvl - 2,0);
+                        this.DropDownMap.SelectedIndex = Math.Max(mapLVL - 2, 0);
 
                         if (isBig)
                         {
-                            this.CPosition.Margin = new Thickness((X + offsetX) / scaleF + thicknessMap.Left, (Y + offsetY) / scaleF + thicknessMap.Top, 0, 0);
+                            this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
                         }
                         else
                         {
-                            this.CPosition.Margin = new Thickness((X + offsetX) / scaleF + thicknessMap.Left, (Y + offsetY) / scaleF + thicknessMap.Top, 0, 0);
+                            this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
                             Thickness thicknessCPos = this.CPosition.Margin;
                             this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
-
                         }
-                        this.cordinate_txt.Text = "(" + posXY[0] + "/" + posXY[1] + ")" + this.DropDownMap.SelectedValue;
-                        //this.cordinate_txt.Visibility = Visibility.Collapsed;
+                        this.cordinate_txt.Text = "(" + offsetX + "/" + offsetY + ")*"+scaleXY+" -" + this.DropDownMap.SelectedValue;
+                        
                     }));
 
-                Thread.Sleep(200);
+                Thread.Sleep(150);
             }
-
-
 
         }
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool ReadProcessMemory(
+           IntPtr hProcess,
+           uint lpBaseAddress,
+           byte[] lpBuffer,
+           int nSize,
+           IntPtr lpNumberOfBytesRead);
+
+        private float ReadMemoryValueFloat(Process process, uint addr){
+           
+            byte[] data = new byte[(uint)Marshal.SizeOf(typeof(float))];
+            ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);         
+            return System.BitConverter.ToSingle(data, 0);
+        }
+        private byte ReadMemoryValueByte(Process process, uint addr)
+        {
+
+            byte[] data = new byte[(uint)Marshal.SizeOf(typeof(byte))];
+            ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);
+            return data[0];
+        }
+
+        private void XValue_Changed(object sender, TextChangedEventArgs e)
+        {
+            offsetX = Int32.Parse(XValue.Text);            
+        }
+        private void YValue_Changed(object sender, TextChangedEventArgs e)
+        {
+            offsetY = Int32.Parse(YValue.Text);
+        }
+        private void Scale_Changed(object sender, TextChangedEventArgs e)
+        {
+            scaleXY = float.Parse(Scale.Text);
+        }
+
+        private void checkDebugMode()
+        {
+            if (getConfigValue("debug") == "true")
+            {
+                cordinate_txt.Visibility = Visibility.Visible;
+                XValue.Visibility = Visibility.Visible;
+                YValue.Visibility = Visibility.Visible;
+                Scale.Visibility = Visibility.Visible;
+                savecal_btn.Visibility = Visibility.Visible;    
+            } else
+            {
+                cordinate_txt.Visibility = Visibility.Collapsed;
+                XValue.Visibility = Visibility.Collapsed;
+                YValue.Visibility = Visibility.Collapsed;
+                Scale.Visibility = Visibility.Collapsed;
+                savecal_btn.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void debug_w(String s)
+        {
+            System.Diagnostics.Debug.WriteLine(s);  
+        }
+
+        private String getConfigValue(String key)
+        {           
+          return ConfigurationManager.AppSettings[key];
+        }
+        private void setConfigValue(String key, String value)
+        {
+            debug_w(key+" <- KEY"+" VALUE-> "+value);   
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                debug_w("Error writing app settings");
+            }            
+        }
+
+        private void XValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            XValue.Text = XValueSlider.Value+"";
+        }
+
+        private void YValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            YValue.Text = YValueSlider.Value + "";
+        }
+
+        private void ScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Scale.Text = ScaleSlider.Value + "";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            setConfigValue("mapID_" + mapLVL + "_offsetX",offsetX+"");
+            setConfigValue("mapID_" + mapLVL + "_offsetY", offsetY + "");
+            setConfigValue("mapID_" + mapLVL + "_scaleXY", scaleXY + "");           
+        }
     }
+
+
+
 }
