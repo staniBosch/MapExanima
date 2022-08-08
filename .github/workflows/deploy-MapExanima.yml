@@ -33,5 +33,5 @@ jobs:
     - uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN}}
-        pattern: /bin/Release/net6.0-windows/publish/*
+        pattern: D:\a\MapExanima\MapExanima\bin\Release\net6.0-windows\win-x86\publish
         release-url: ${{ steps.create_release.outputs.upload_url }}
