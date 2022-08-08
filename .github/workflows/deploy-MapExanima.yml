@@ -28,8 +28,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
-        tag_name: ${{ github.event.release.tag_name }}
-        release_name: ${{ github.event.release.tag_name }}
+        tag_name: 0.0.1v
+        release_name: MapExanima
     - uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN}}
