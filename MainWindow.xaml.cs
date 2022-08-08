@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -69,8 +70,13 @@ namespace MapExanima
              */
             int MapID = DropDownMap.SelectedIndex + 2;
             String keyMapLoc = getConfigValue("mapID_" + MapID + "_location");
-            this.MapImageElement.Source = new BitmapImage(new Uri("pack://application:,,," + keyMapLoc));
-        }
+            String path = Environment.CurrentDirectory+keyMapLoc;
+            Uri u = new Uri(path);
+
+            this.MapImageElement.Source = new BitmapImage(u);           
+            
+           // debug_w(u.AbsolutePath);
+        }    
         private void close_btn_Click(object sender, RoutedEventArgs e)
         {
             runThread = false;
@@ -171,64 +177,70 @@ namespace MapExanima
 
             while (runThread)
             {
-                /**
-                 * READ FROM MEMORY ALL INFORMATION THAT ARE NEEDED
-                 * POSITION, LVL, ITEMS
-                 *
-                 * POSTION
-                 *
-                 * Fetching up X/Y Coordinates [as float]
-                 * The values are in their Engine format. Values between (-50000.0f) to (+50000.0f). 
-                 * For the map(ImageObject) that is scaled 1150/1150 there has to be a mapping/tranformation
-                 *
-                 * Map LVL starts with value:2[as byte] on first floor 
-                 *  
-                 *   2      3       4        5          6         7          8           9            10         11
-                 *  LVL 1 LVL 2   LVL 3   Catacombs   Archive  Crossroads  Golems Crossroads Sewer  Market  Market Sewer
-                 */
-                X = ReadMemoryValueFloat(process, XPtr);
-                Y = ReadMemoryValueFloat(process, YPtr);
-                mapLVL_tmp = ReadMemoryValueByte(process, LVLPtr);
-
-                if (mapLVL_tmp != mapLVL)
-                {
-                    mapLVL = mapLVL_tmp;
-                    offsetX = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetX"));
-                    offsetY = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetY"));
-                    scaleXY = double.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"), CultureInfo.InvariantCulture);
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        XValueSlider.Value = offsetX;
-                        YValueSlider.Value = offsetY;
-                        ScaleSlider.Value = scaleXY;                       
-                    }));
-
-
+                if (mapLVL_tmp < 2) {
+                    mapLVL_tmp = ReadMemoryValueByte(process, LVLPtr);
                 }
+                else
+                {
+                    /**
+                     * READ FROM MEMORY ALL INFORMATION THAT ARE NEEDED
+                     * POSITION, LVL, ITEMS
+                     *
+                     * POSTION
+                     *
+                     * Fetching up X/Y Coordinates [as float]
+                     * The values are in their Engine format. Values between (-50000.0f) to (+50000.0f). 
+                     * For the map(ImageObject) that is scaled 1150/1150 there has to be a mapping/tranformation
+                     *
+                     * Map LVL starts with value:2[as byte] on first floor 
+                     *  
+                     *   2      3       4        5          6         7          8           9            10         11
+                     *  LVL 1 LVL 2   LVL 3   Catacombs   Archive  Crossroads  Golems Crossroads Sewer  Market  Market Sewer
+                     */
+                    X = ReadMemoryValueFloat(process, XPtr);
+                    Y = ReadMemoryValueFloat(process, YPtr);
+                    mapLVL_tmp = ReadMemoryValueByte(process, LVLPtr);
 
-                //refresh MAP and Location
-
-                this.Dispatcher.Invoke(new Action(() =>
+                    if (mapLVL_tmp != mapLVL)
                     {
-                        Thickness thicknessMap = this.MapImageElement.Margin;
-
-                        this.DropDownMap.SelectedIndex = mapLVL - 2;
-
-                        if (isBig)
+                        mapLVL = mapLVL_tmp;
+                        offsetX = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetX"));
+                        offsetY = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetY"));
+                        scaleXY = double.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"), CultureInfo.InvariantCulture);
+                        this.Dispatcher.Invoke(new Action(() =>
                         {
-                            this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
-                        }
-                        else
+                            XValueSlider.Value = offsetX;
+                            YValueSlider.Value = offsetY;
+                            ScaleSlider.Value = scaleXY;                            
+                        }));
+
+
+                    }
+
+                    //refresh MAP and Location
+
+                    this.Dispatcher.Invoke(new Action(() =>
                         {
-                            this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
-                            Thickness thicknessCPos = this.CPosition.Margin;
-                            this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
-                        }
+                            Thickness thicknessMap = this.MapImageElement.Margin;
+
+                            this.DropDownMap.SelectedIndex = mapLVL - 2;
+
+                            if (isBig)
+                            {
+                                this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
+                            }
+                            else
+                            {
+                                this.CPosition.Margin = new Thickness((X + offsetX) * scaleXY + thicknessMap.Left, (Y + offsetY) * scaleXY + thicknessMap.Top, 0, 0);
+                                Thickness thicknessCPos = this.CPosition.Margin;
+                                this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
+                            }
                         //debug textbox
-                        this.cordinate_txt.Text = "(" + (int)((X + offsetX) * scaleXY) + "/" + (int)((Y + offsetY) * scaleXY) + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
-                    }));
+                            this.cordinate_txt.Text = "(" + (int)((X + offsetX) * scaleXY) + "/" + (int)((Y + offsetY) * scaleXY) + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
+                        }));
 
-                Thread.Sleep(150);
+                    Thread.Sleep(150);
+                }
             }
 
         }
