@@ -24,11 +24,11 @@ jobs:
     - name: Build
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
-      run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true --self-contained true --output ./bin/MapExanima
+      run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true --self-contained true --output ./bin/MapExanima/MapExanima
     - uses: vimtor/action-zip@v1
       with:
-        files: bin/MapExanima/
-        dest: MapExanima_${{ github.ref }}.zip    
+        files: bin/MapExanima
+        dest: MapExanima ${{ github.ref }}.zip    
     - name: release
       uses: actions/create-release@v1
       id: create_release
@@ -40,5 +40,5 @@ jobs:
     - uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN}}
-        file: MapExanima_${{ github.ref }}.zip
+        file: MapExanima ${{ github.ref }}.zip
         release-url: ${{ steps.create_release.outputs.upload_url }}
