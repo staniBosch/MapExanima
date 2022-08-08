@@ -8,6 +8,7 @@
     <ApplicationIcon>favicon(1).ico</ApplicationIcon>
     <StartupObject>MapExanima.App</StartupObject>
 	<DebugType>embedded</DebugType>
+	  <RuntimeIdentifier>win-x86</RuntimeIdentifier>
 
   </PropertyGroup>
 
