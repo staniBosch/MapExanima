@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -194,12 +195,12 @@ namespace MapExanima
                     mapLVL = mapLVL_tmp;
                     offsetX = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetX"));
                     offsetY = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetY"));
-                    scaleXY = double.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"));
+                    scaleXY = double.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"), CultureInfo.InvariantCulture);
                     this.Dispatcher.Invoke(new Action(() =>
                     {
                         XValueSlider.Value = offsetX;
                         YValueSlider.Value = offsetY;
-                        ScaleSlider.Value = scaleXY;
+                        ScaleSlider.Value = scaleXY;                       
                     }));
 
 
@@ -223,8 +224,8 @@ namespace MapExanima
                             Thickness thicknessCPos = this.CPosition.Margin;
                             this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
                         }
-                        this.cordinate_txt.Text = "(" + offsetX + "/" + offsetY + ")*" + scaleXY + "-" + this.DropDownMap.SelectedValue + "[" + mapLVL + "]";
-
+                        //debug textbox
+                        this.cordinate_txt.Text = "(" + (int)((X + offsetX) * scaleXY) + "/" + (int)((Y + offsetY) * scaleXY) + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
                     }));
 
                 Thread.Sleep(150);
@@ -263,7 +264,7 @@ namespace MapExanima
         }
         private void Scale_Changed(object sender, TextChangedEventArgs e)
         {
-            scaleXY = float.Parse(Scale.Text);
+            scaleXY = double.Parse(Scale.Text);
         }
 
         private void checkDebugMode()
@@ -296,8 +297,6 @@ namespace MapExanima
         }
         private void setConfigValue(String key, String value)
         {
-            debug_w(key + " <- KEY" + " VALUE-> " + value);
-
             try
             {
                 var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -310,8 +309,7 @@ namespace MapExanima
                 }
                 else
                 {
-                    settings[key].Value = value;
-                    debug_w("JOO LÄÜFT DOCH");
+                    settings[key].Value = value;                  
                 }
                 configFile.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);

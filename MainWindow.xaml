@@ -39,18 +39,31 @@
 
         </ComboBox>
         <Button x:Name="close_btn" Content="X" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="close_btn_Click" HorizontalContentAlignment="Center" OpacityMask="Black"/>
-        <StackPanel x:Name="debugItems" Margin="0,100,0,0" HorizontalAlignment="Left">
+        <Grid x:Name="debugItems" Margin="0,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300">
 
-            <TextBox x:Name="XValue" TextChanged="XValue_Changed"  TextWrapping="Wrap" Text="0"  Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
-            <Slider x:Name="XValueSlider"   Width="120"  Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left"/>
-            <TextBox x:Name="YValue" TextChanged="YValue_Changed"  TextWrapping="Wrap" Text="0" Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
-            <Slider x:Name="YValueSlider" Width="120" ValueChanged="YValueSlider_ValueChanged" SmallChange="1" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True" HorizontalAlignment="Left"/>
-            <TextBox x:Name="Scale" TextChanged="Scale_Changed"  TextWrapping="Wrap" Text="0.05"  Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
-            <Slider x:Name="ScaleSlider"   Width="120" Maximum="0.1" LargeChange="0.01" SmallChange="0.001" ValueChanged="ScaleSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="0.001" HorizontalAlignment="Left"/>
-            <Button x:Name="savecal_btn" Click="Button_Click" Content="Save Calibration"  VerticalAlignment="Top"/>
-            <TextBox x:Name="cordinate_txt" TextWrapping="Wrap" Text="TextBox" Width="127" IsEnabled="False" Height="39" />
+            <TextBox x:Name="XValue" TextChanged="XValue_Changed"  TextWrapping="Wrap" Text="0"  Width="80" IsEnabled="False" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="40,0,0,0"/>
+            <TextBox x:Name="YValue" TextChanged="YValue_Changed"  TextWrapping="Wrap" Text="0" Width="80" IsEnabled="False" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="40,20,0,0"/>
+            <TextBox x:Name="Scale" TextChanged="Scale_Changed"  TextWrapping="Wrap" Text="0.05"  Width="80" IsEnabled="False" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="40,40,0,0"/>
 
-        </StackPanel>
+            <Slider x:Name="XValueSlider"   Width="300"  Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Opacity="0.5" Height="25" VerticalAlignment="Top" Margin="0,65,0,0"/>
+            <Slider x:Name="YValueSlider" Width="200" ValueChanged="YValueSlider_ValueChanged" SmallChange="1" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True" Opacity="0.5" RenderTransformOrigin="0.514,0.393" VerticalContentAlignment="Top" Margin="-92,170,0,0" Padding="0,0,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Slider.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform X="-2.192" Y="6.086"/>
+                    </TransformGroup>
+                </Slider.RenderTransform>
+            </Slider>
+            <Slider x:Name="ScaleSlider"   Width="180" Maximum="0.1" LargeChange="0.01" SmallChange="0.001" ValueChanged="ScaleSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="0.001" HorizontalAlignment="Left" Opacity="0.5" Visibility="Visible" Height="25" VerticalAlignment="Top" Margin="120,40,0,0"/>
+            <Button x:Name="savecal_btn" Click="Button_Click" Content="Save Calibration"  VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <TextBox x:Name="cordinate_txt" TextWrapping="Wrap" Text="TextBox" Width="130" IsEnabled="False" Height="40" HorizontalAlignment="Left" Visibility="Visible" Margin="25,240,0,0" VerticalAlignment="Top" />
+
+        </Grid>
+        <Label Content="X-Off" HorizontalAlignment="Left" Margin="-3,20,0,0" VerticalAlignment="Top" Foreground="Black" Background="#66FFFFFF" IsEnabled="False" Height="20" FontWeight="Bold" Padding="5,0,5,0"/>
+        <Label Content="Y-Off" HorizontalAlignment="Left" Margin="-3,40,0,0" VerticalAlignment="Top" Foreground="Black" Background="#66FFFFFF" IsEnabled="False" Height="20" FontWeight="Bold" Padding="5,0,6,0"/>
+        <Label Content="speed" HorizontalAlignment="Left" Margin="-3,60,0,0" VerticalAlignment="Top" Foreground="Black" Background="#66FFFFFF" IsEnabled="False" Height="20" FontWeight="Bold" Padding="5,0,3,0"/>
 
     </Grid>
 
