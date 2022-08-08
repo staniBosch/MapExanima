@@ -7,7 +7,7 @@
         xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Name="MapExanima" x:Class="MapExanima.MainWindow"
         mc:Ignorable="d"
         Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="CenterOwner" BorderBrush="#00000000" MinWidth="300" MinHeight="300" Width="200" Height="200"
-    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" KeyDown="KeyDown_Event" Opacity="0.995" MaxWidth="300" MaxHeight="298" ResizeMode="NoResize" AllowsTransparency="True">
+    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" Opacity="0.995" MaxWidth="300" MaxHeight="298" ResizeMode="NoResize" AllowsTransparency="True">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <Image x:Name="MapImageElement" Source="/Maps/[ID2]Map_LVL1.png" Stretch="Fill" Opacity="0.6" MouseLeftButtonUp="MouseClick_Event" MinWidth="1150" MinHeight="1150" MaxWidth="1150" MaxHeight="1150" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Ellipse x:Name="CPosition" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top" >
@@ -39,15 +39,18 @@
 
         </ComboBox>
         <Button x:Name="close_btn" Content="X" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="close_btn_Click" HorizontalContentAlignment="Center" OpacityMask="Black"/>
-        <TextBox x:Name="cordinate_txt" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="127" Visibility="Visible" IsEnabled="False" />
+        <StackPanel x:Name="debugItems" Margin="0,100,0,0" HorizontalAlignment="Left">
 
-        <TextBox x:Name="XValue" TextChanged="XValue_Changed" HorizontalAlignment="Left" Margin="4,0,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" Width="120" Visibility="Visible" IsEnabled="False"/>
-        <TextBox x:Name="YValue" TextChanged="YValue_Changed" HorizontalAlignment="Left" Margin="4,181,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" Visibility="Visible" IsEnabled="False"/>
-        <TextBox x:Name="Scale" TextChanged="Scale_Changed" HorizontalAlignment="Left" Margin="4,220,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120" Visibility="Visible" IsEnabled="False"/>
-        <Slider x:Name="XValueSlider" HorizontalAlignment="Left" Margin="7,161,0,0" VerticalAlignment="Top" Width="120" Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True"/>
-        <Slider x:Name="YValueSlider" HorizontalAlignment="Left" Margin="7,200,0,0" VerticalAlignment="Top" Width="120" ValueChanged="YValueSlider_ValueChanged" SmallChange="1" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True"/>
-        <Slider x:Name="ScaleSlider" HorizontalAlignment="Left" Margin="6,239,0,0" VerticalAlignment="Top" Width="120" Maximum="0.1" LargeChange="0.01" SmallChange="0.001" ValueChanged="ScaleSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="0.001"/>
-        <Button x:Name="savecal_btn" Click="Button_Click" Content="Save Calibration" HorizontalAlignment="Left" Margin="5,109,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="XValue" TextChanged="XValue_Changed"  TextWrapping="Wrap" Text="0"  Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
+            <Slider x:Name="XValueSlider"   Width="120"  Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left"/>
+            <TextBox x:Name="YValue" TextChanged="YValue_Changed"  TextWrapping="Wrap" Text="0" Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
+            <Slider x:Name="YValueSlider" Width="120" ValueChanged="YValueSlider_ValueChanged" SmallChange="1" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True" HorizontalAlignment="Left"/>
+            <TextBox x:Name="Scale" TextChanged="Scale_Changed"  TextWrapping="Wrap" Text="0.05"  Width="120" IsEnabled="False" HorizontalAlignment="Left"/>
+            <Slider x:Name="ScaleSlider"   Width="120" Maximum="0.1" LargeChange="0.01" SmallChange="0.001" ValueChanged="ScaleSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="0.001" HorizontalAlignment="Left"/>
+            <Button x:Name="savecal_btn" Click="Button_Click" Content="Save Calibration"  VerticalAlignment="Top"/>
+            <TextBox x:Name="cordinate_txt" TextWrapping="Wrap" Text="TextBox" Width="127" IsEnabled="False" Height="39" />
+
+        </StackPanel>
 
     </Grid>
 
