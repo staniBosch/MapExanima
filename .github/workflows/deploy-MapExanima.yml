@@ -21,7 +21,7 @@ jobs:
     - name: Build
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
-      run: dotnet publish MapExanima.csproj dotnet publish -c Release -r win-x86 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained true --output ./bin/MapExanima
+      run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained true --output ./bin/MapExanima
     - uses: dev-drprasad/delete-tag-and-release@v0.2.0
       with:
         delete_release: true # default: false
