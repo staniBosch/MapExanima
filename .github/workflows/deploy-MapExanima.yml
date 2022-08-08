@@ -6,8 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-    PROJECT_PATH: MapExanima/MapExanima.csproj
 jobs:
   build:
 
@@ -20,8 +18,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }}
+      run: dotnet restore MapExanima.csproj
     - name: Build
-      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+      run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
-      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release
+      run: dotnet publish MapExanima.csproj -c Release
