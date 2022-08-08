@@ -10,6 +10,8 @@ Table of Contents
 
 Introduction
 
+Map for Exanima. Drag the Map with both left and right mouse-button pressed.
+Double click to enlarge the map.
 
 !Attention!
 

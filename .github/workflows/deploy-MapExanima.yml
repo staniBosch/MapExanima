@@ -1,7 +1,10 @@
 name: "Deploy MapExanima"
 
 
-on: [workflow_dispatch]
+on: 
+  push:
+    tags:
+      - 'v*'
   
 
  
@@ -21,15 +24,15 @@ jobs:
     - name: Build
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
-      run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained true --output ./bin/MapExanima
+      run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true --self-contained true --output ./bin/MapExanima
     - uses: vimtor/action-zip@v1
       with:
         files: bin/MapExanima
-        dest: result.zip
+        dest: MapExanima-${{ github.ref }}.zip
     - uses: dev-drprasad/delete-tag-and-release@v0.2.0
       with:
         delete_release: true # default: false
-        tag_name: v0.0.2 # tag name to delete        
+        tag_name: ${{ github.ref }} # tag name to delete        
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
     - name: release
@@ -38,10 +41,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
-        tag_name: v0.0.2
-        release_name: MapExanima
+        tag_name: ${{ github.ref }}
+        release_name: MapExanima ${{ github.ref }}
     - uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN}}
-        file: result.zip
+        file: MapExanima-${{ github.ref }}.zip
         release-url: ${{ steps.create_release.outputs.upload_url }}
