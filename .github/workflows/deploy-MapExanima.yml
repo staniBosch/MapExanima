@@ -1,11 +1,10 @@
 name: "Deploy MapExanima"
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
+on: [workflow_dispatch]
+  
+
+ 
 jobs:
   build:
 
@@ -23,7 +22,8 @@ jobs:
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
       run: dotnet publish MapExanima.csproj -c Release --no-build
-    - uses: actions/create-release@v1
+    
+    - uses: actions/create-release@v1.0.0
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
