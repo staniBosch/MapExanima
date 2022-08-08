@@ -24,11 +24,13 @@ But at the moment it should be safe.
 2.Configuration
 Modify Maps:
 You can add icons, markers [...] to the [IDX]Map_Y.[png] files found in the folder Maps.
+You can even add Maps for new levels which may come in the near future.
 Enable Debug-Mode ->true.
 
 3.Debug-Mode
 
 Debug-Mode is for calibration and getting extra information.
+
 [...]
 
 Extras
