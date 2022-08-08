@@ -27,14 +27,8 @@ jobs:
       run: dotnet publish MapExanima.csproj -c Release -r win-x86 -p:PublishSingleFile=true --self-contained true --output ./bin/MapExanima
     - uses: vimtor/action-zip@v1
       with:
-        files: bin/MapExanima
-        dest: MapExanima-${{ github.ref }}.zip
-    - uses: dev-drprasad/delete-tag-and-release@v0.2.0
-      with:
-        delete_release: true # default: false
-        tag_name: ${{ github.ref }} # tag name to delete        
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+        files: bin/MapExanima/
+        dest: MapExanima_${{ github.ref }}.zip    
     - name: release
       uses: actions/create-release@v1
       id: create_release
@@ -46,5 +40,5 @@ jobs:
     - uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN}}
-        file: MapExanima-${{ github.ref }}.zip
+        file: MapExanima_${{ github.ref }}.zip
         release-url: ${{ steps.create_release.outputs.upload_url }}
