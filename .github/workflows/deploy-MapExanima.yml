@@ -22,13 +22,19 @@ jobs:
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
       run: dotnet publish MapExanima.csproj -c Release --no-build
+    - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+      with:
+        delete_release: true # default: false
+        tag_name: v0.0.1 # tag name to delete        
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: release
       uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
-        tag_name: 0.0.1v
+        tag_name: v0.0.1
         release_name: MapExanima
     - uses: csexton/release-asset-action@v2
       with:
