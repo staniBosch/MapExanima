@@ -22,4 +22,16 @@ jobs:
     - name: Build
       run: dotnet build MapExanima.csproj -c Release --no-restore
     - name: Deploy
-      run: dotnet publish MapExanima.csproj -c Release
+      run: dotnet publish MapExanima.csproj -c Release --no-build
+    - uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with: 
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref}}
+    - uses: csexton/release-asset-actions@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN}}
+        pattern: /bin/Release/net6.0-windows/publish/*
+        release-url: ${{ steps.create_release.outputs.upload_url }}
