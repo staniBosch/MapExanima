@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:MapExanima"
         xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Name="MapExanima" x:Class="MapExanima.MainWindow"
         mc:Ignorable="d"
-        Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="CenterOwner" BorderBrush="#00000000" MinWidth="300" MinHeight="300" Width="200" Height="200"
-    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" Opacity="0.995" MaxWidth="300" MaxHeight="298" ResizeMode="NoResize" AllowsTransparency="True">
+        Title="MapExanima" WindowStyle="None" SizeToContent="Height" Topmost="True" Foreground="#00000000" Background="#33000000" WindowStartupLocation="Manual" BorderBrush="#00000000" MinWidth="300" MinHeight="300" Width="200" Height="200"
+    MouseMove="window_MouseMove" MouseLeave="window_MouseLeave" MouseEnter="window_MouseEnter" Opacity="0.995" MaxWidth="300" MaxHeight="298" ResizeMode="NoResize" AllowsTransparency="True" HorizontalAlignment="Right" VerticalAlignment="Top"  Left="0" Top="0">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <Image x:Name="MapImageElement" Source="/Maps/[ID2]Map_LVL1.png" Stretch="Fill" Opacity="0.6" MouseLeftButtonUp="MouseClick_Event" MinWidth="1150" MinHeight="1150" MaxWidth="1150" MaxHeight="1150" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Ellipse x:Name="CPosition" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top" >

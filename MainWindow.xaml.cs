@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -53,7 +52,7 @@ namespace MapExanima
             InitializeComponent();
             checkDebugMode();
 
-            OFFSET_X_Ptr = Convert.ToUInt32(getConfigValue("OFFSET_X_Ptr"),16);
+            OFFSET_X_Ptr = Convert.ToUInt32(getConfigValue("OFFSET_X_Ptr"), 16);
             OFFSET_Y_Ptr = Convert.ToUInt32(getConfigValue("OFFSET_Y_Ptr"), 16);
             OFFSET_LVL_Ptr = Convert.ToUInt32(getConfigValue("OFFSET_LVL_Ptr"), 16);
 
@@ -70,13 +69,13 @@ namespace MapExanima
              */
             int MapID = DropDownMap.SelectedIndex + 2;
             String keyMapLoc = getConfigValue("mapID_" + MapID + "_location");
-            String path = Environment.CurrentDirectory+keyMapLoc;
+            String path = Environment.CurrentDirectory + keyMapLoc;
             Uri u = new Uri(path);
 
-            this.MapImageElement.Source = new BitmapImage(u);           
-            
-           // debug_w(u.AbsolutePath);
-        }    
+            this.MapImageElement.Source = new BitmapImage(u);
+
+            // debug_w(u.AbsolutePath);
+        }
         private void close_btn_Click(object sender, RoutedEventArgs e)
         {
             runThread = false;
@@ -89,7 +88,7 @@ namespace MapExanima
                 this.DragMove();
             }
         }
-       
+
         private void window_MouseEnter(object s, MouseEventArgs e)
         {
             this.DropDownMap.Visibility = Visibility.Visible;
@@ -135,6 +134,12 @@ namespace MapExanima
             isDoubleClick = false;
         }
 
+        public static void HideWindowBorders(IntPtr hWnd)
+        {
+            int style = (int)WinAPI.GetWindowLongPtr(hWnd, WinAPI.GWL_STYLE); //gets current style
+            WinAPI.SetWindowLong(hWnd, WinAPI.GWL_STYLE, (uint)(style & ~(WinAPI.WS_CAPTION | WinAPI.WS_SIZEBOX))); //removes caption and the sizebox from current style
+        }
+
         private void ReadMemoryOfExanima()
         {
             /*
@@ -146,8 +151,6 @@ namespace MapExanima
             {
                 process = Process.GetProcessesByName("Exanima")[0];
                 baseaddr = process.MainModule.BaseAddress;
-
-
             }
             catch
             {
@@ -158,6 +161,19 @@ namespace MapExanima
 
             //System.Diagnostics.Debug.WriteLine(process.MainModule.BaseAddress.ToString("X"));
 
+            /*
+             *  MAKE EXANIMA INTO WINDOWFULLSCREEN
+             *  
+             */
+            if (getConfigValue("full_window_screen") == "true")
+            {
+                HideWindowBorders(process.MainWindowHandle);
+                WinAPI.SetWindowPos(process.MainWindowHandle, -2, 0, 0, (int)System.Windows.SystemParameters.PrimaryScreenWidth, (int)System.Windows.SystemParameters.PrimaryScreenHeight, 0x0040);
+                WinAPI.SendMessage((int)process.MainWindowHandle, WinAPI.WM_EXITSIZEMOVE, 0, 0);
+            }
+
+            // MoveWindow(process.MainWindowHandle, -8, -31, 1920+16, 1080+80, true);
+            //
 
             /*
              * Those are the pointer to X/Y and lvl -> with CheatEngine tryanderror
@@ -177,7 +193,8 @@ namespace MapExanima
 
             while (runThread)
             {
-                if (mapLVL_tmp < 2) {
+                if (mapLVL_tmp < 2)
+                {
                     mapLVL_tmp = ReadMemoryValueByte(process, LVLPtr);
                 }
                 else
@@ -204,6 +221,12 @@ namespace MapExanima
                     if (mapLVL_tmp != mapLVL)
                     {
                         mapLVL = mapLVL_tmp;
+                        if (mapLVL < 2)
+                        {
+                            runThread = false;
+                            this.Dispatcher.Invoke(new Action(() => this.Close() ));
+                            return;
+                        }
                         offsetX = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetX"));
                         offsetY = Int32.Parse(getConfigValue("mapID_" + mapLVL + "_offsetY"));
                         scaleXY = double.Parse(getConfigValue("mapID_" + mapLVL + "_scaleXY"), CultureInfo.InvariantCulture);
@@ -211,10 +234,8 @@ namespace MapExanima
                         {
                             XValueSlider.Value = offsetX;
                             YValueSlider.Value = offsetY;
-                            ScaleSlider.Value = scaleXY;                            
+                            ScaleSlider.Value = scaleXY;
                         }));
-
-
                     }
 
                     //refresh MAP and Location
@@ -235,7 +256,7 @@ namespace MapExanima
                                 Thickness thicknessCPos = this.CPosition.Margin;
                                 this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
                             }
-                        //debug textbox
+                            //debug textbox
                             this.cordinate_txt.Text = "(" + X + "/" + Y + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
                         }));
 
@@ -245,24 +266,18 @@ namespace MapExanima
 
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool ReadProcessMemory(
-           IntPtr hProcess,
-           uint lpBaseAddress,
-           byte[] lpBuffer,
-           int nSize,
-           IntPtr lpNumberOfBytesRead);
+
 
         private float ReadMemoryValueFloat(Process process, uint addr)
         {
             byte[] data = new byte[(uint)Marshal.SizeOf(typeof(float))];
-            ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);
+            WinAPI.ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);
             return System.BitConverter.ToSingle(data, 0);
         }
         private byte ReadMemoryValueByte(Process process, uint addr)
         {
             byte[] data = new byte[(uint)Marshal.SizeOf(typeof(byte))];
-            ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);
+            WinAPI.ReadProcessMemory(process.Handle, addr, data, data.Length, IntPtr.Zero);
             return data[0];
         }
 
@@ -321,7 +336,7 @@ namespace MapExanima
                 }
                 else
                 {
-                    settings[key].Value = value;                  
+                    settings[key].Value = value;
                 }
                 configFile.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
@@ -352,6 +367,11 @@ namespace MapExanima
             setConfigValue("mapID_" + mapLVL + "_offsetX", offsetX + "");
             setConfigValue("mapID_" + mapLVL + "_offsetY", offsetY + "");
             setConfigValue("mapID_" + mapLVL + "_scaleXY", scaleXY + "");
+        }
+
+        private void MapExanima_Deactivated(object sender, EventArgs e)
+        {
+
         }
     }
 
