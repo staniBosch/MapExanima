@@ -236,7 +236,7 @@ namespace MapExanima
                                 this.MapImageElement.Margin = new Thickness(-thicknessCPos.Left + SMWindow / 2 + thicknessMap.Left, -thicknessCPos.Top + SMWindow / 2 + thicknessMap.Top, 0, 0);
                             }
                         //debug textbox
-                            this.cordinate_txt.Text = "(" + (int)((X + offsetX) * scaleXY) + "/" + (int)((Y + offsetY) * scaleXY) + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
+                            this.cordinate_txt.Text = "(" + X + "/" + Y + ") " + this.DropDownMap.SelectedValue + "[ID" + mapLVL + "]";
                         }));
 
                     Thread.Sleep(150);

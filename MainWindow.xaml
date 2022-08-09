@@ -45,8 +45,8 @@
             <TextBox x:Name="YValue" TextChanged="YValue_Changed"  TextWrapping="Wrap" Text="0" Width="80" IsEnabled="False" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="40,20,0,0"/>
             <TextBox x:Name="Scale" TextChanged="Scale_Changed"  TextWrapping="Wrap" Text="0.05"  Width="80" IsEnabled="False" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="40,40,0,0"/>
 
-            <Slider x:Name="XValueSlider"   Width="300"  Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Opacity="0.5" Height="25" VerticalAlignment="Top" Margin="0,65,0,0"/>
-            <Slider x:Name="YValueSlider" Width="200" ValueChanged="YValueSlider_ValueChanged" SmallChange="1" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True" Opacity="0.5" RenderTransformOrigin="0.514,0.393" VerticalContentAlignment="Top" Margin="-92,170,0,0" Padding="0,0,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Slider x:Name="XValueSlider"   Width="300"  Maximum="25000" ValueChanged="XValueSlider_ValueChanged" SmallChange="10" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Opacity="0.5" Height="25" VerticalAlignment="Top" Margin="0,65,0,0"/>
+            <Slider x:Name="YValueSlider" Width="200" ValueChanged="YValueSlider_ValueChanged" SmallChange="10" LargeChange="10" Maximum="25000" IsSnapToTickEnabled="True" Opacity="0.5" RenderTransformOrigin="0.514,0.393" VerticalContentAlignment="Top" Margin="-92,170,0,0" Padding="0,0,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Slider.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
